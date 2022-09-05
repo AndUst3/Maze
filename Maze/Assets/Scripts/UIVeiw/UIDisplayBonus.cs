@@ -5,7 +5,7 @@ namespace Maze
 {
     public class UIDisplayBonus
     {
-        private Text _pointLabel;
+        public Text _pointLabel;
         public UIDisplayBonus(Text pointsLabel)
         {
             _pointLabel = pointsLabel;

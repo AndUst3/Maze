@@ -6,7 +6,7 @@ namespace Maze
 {
     public class UIDisplayGameOver
     {
-        private Text _gameOverLabel;
+        public Text _gameOverLabel;
 
         public UIDisplayGameOver(Text gameOverLabel)
         {

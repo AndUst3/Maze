@@ -1,41 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Maze
 {
-    public class BadBonus : Bonus, IRotation
+    public class BadBonus : Bonus
     {
         public event Action<int> OnDamage = delegate (int i) { };
         public event Action<string, Color> OnGameOver = delegate(string str, Color color) { };
 
-        private Material _material;
-
-        public override void Awake()
+        public BadBonus(ObjectView view) : base(view)
         {
-            base.Awake();
-            _material = Renderer.material;
-            heightFly = Random.Range(1f, 5f);
-            speedRotation = Random.Range(10f, 20f);
+            Init();
+            view.Collide += Action;
+        }
+
+        private void Action(Player contactView)
+        {
+            Interaction();
+        }
+
+        protected override void Interaction()
+        {
+            OnDamage?.Invoke(20);
+            IsInteractable = false;
+            Debug.Log("TriggerEnter");
         }
 
         public override void Update()
         {
             Fly();
             Rotate();
-        }
-
-        public void Rotate()
-        {
-            transform.Rotate(Vector3.up * (Time.deltaTime * speedRotation), Space.World);
-        }
-
-        protected override void Interaction()
-        {
-            OnGameOver?.Invoke(gameObject.name, _color);
-            IsInteractable = false;
         }
     }
 }

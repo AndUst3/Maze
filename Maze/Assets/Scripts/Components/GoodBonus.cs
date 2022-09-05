@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Maze
 {
-    public class GoodBonus : Bonus, IFlick
+    public class GoodBonus : Bonus
     {
         public event Action<int> AddPoint = delegate (int i) { };
-        private Material _material;
 
-        public override void Awake()
+        public GoodBonus(ObjectView view) : base(view)
         {
-            base.Awake();
-            _material = Renderer.material;
-            heightFly = Random.Range(1f, 4f);
+            Init();
+            view.Collide += Action;
+        }
+
+        private void Action(Player contactView)
+        {
+            Interaction();
         }
 
         public override void Update()
@@ -24,14 +24,10 @@ namespace Maze
             Flick();
         }
 
-        public void Flick()
-        {
-            _material.color = new Color(_material.color.r, _material.color.g, _material.color.b, Mathf.PingPong(Time.time, 1.0f));
-        }
-
         protected override void Interaction()
         {
             IsInteractable = false;
+            Debug.Log("TriggerEnter");
         }
     }
 }
